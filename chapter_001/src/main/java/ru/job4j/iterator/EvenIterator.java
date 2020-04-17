@@ -1,9 +1,7 @@
 package ru.job4j.iterator;
 
-
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.function.Consumer;
+import java.util.NoSuchElementException;
 
 public class EvenIterator implements Iterator {
     private final int[] values;
@@ -16,25 +14,37 @@ public class EvenIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        if (Arrays.stream(this.values).filter(e -> e % 2 == 0).skip(index).count() > 0) {
-            return true;
+        if (index < 0 || values.length <= index) {
+            return false;
         }
-        return false;
+
+        int nextIndex = -1;
+
+        for (int i = index; i < this.values.length; i++) {
+            if (this.values[i] % 2 == 0) {
+                nextIndex = i;
+                break;
+            }
+        }
+
+        index = nextIndex;
+
+        return index >= 0;
+
+        //        if (Arrays.stream(this.values).filter(e -> e % 2 == 0).skip(index).count() > 0) {
+//            return true;
+//        }
+//        return false;
     }
 
     @Override
     public Object next() {
-        return Arrays.stream(this.values).filter(e -> e % 2 == 0).skip(index++).findFirst().getAsInt();
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        return values[index++];
+        // return Arrays.stream(this.values).filter(e -> e % 2 == 0).skip(index++).findFirst().getAsInt();
     }
 
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void forEachRemaining(Consumer action) {
-        throw new UnsupportedOperationException();
-    }
 }
 
