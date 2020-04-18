@@ -47,4 +47,10 @@ public class JaggedArrayIteratorTest {
         assertThat(it.next(), is(7));
         assertThat(it.hasNext(), is(false));
     }
+
+    @Test
+    public void hasLastIndexNext(){
+        it = new JaggedArrayIterator(new int[][]{{}, {}, {1}});
+        assertThat(it.next(),is(1));
+    }
 }

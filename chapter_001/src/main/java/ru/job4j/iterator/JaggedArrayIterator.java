@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public class JaggedArrayIterator implements Iterator {
+public class JaggedArrayIterator implements Iterator<Integer> {
 
     private final int[][] values;
     private int row = 0;
@@ -22,15 +22,18 @@ public class JaggedArrayIterator implements Iterator {
     }
 
     @Override
-    public Object next() {
+    public Integer next() {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        Object res = this.values[this.row][this.coloumn++];
+        while (this.values[row].length==0){
+            row++;
+        }
+
+        Integer res = this.values[this.row][this.coloumn++];
         if (values[row].length == coloumn) {
             row++;
             coloumn = 0;
-
         }
         return res;
         //       return Arrays.stream(this.values).flatMapToInt(Arrays::stream).skip(index++).findFirst().getAsInt();
