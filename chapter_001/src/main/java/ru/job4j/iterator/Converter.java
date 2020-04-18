@@ -7,7 +7,6 @@ public class Converter {
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
             private Iterator<Integer> inIndex = conv();
-            private Integer integer = null;
 
             public Iterator<Integer> conv() {
                 if (it.hasNext()) {
