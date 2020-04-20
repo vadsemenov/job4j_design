@@ -7,6 +7,7 @@ public class Converter {
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
             private Iterator<Integer> inIndex = conv();
+            private Integer integer = null;
 
             public Iterator<Integer> conv() {
                 if (it.hasNext()) {
@@ -17,7 +18,25 @@ public class Converter {
 
             @Override
             public boolean hasNext() {
-                return this.inIndex != null && this.inIndex.hasNext();
+                if (integer != null) {
+                    return true;
+                }
+
+                if (this.inIndex != null) {
+                    while (it.hasNext() || this.inIndex.hasNext()) {
+                        if (!this.inIndex.hasNext()) {
+                            this.inIndex = it.next();
+                        }
+
+                        if (this.inIndex.hasNext()) {
+                            this.integer = inIndex.next();
+                            if (this.integer != null) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+                return false;
             }
 
 
@@ -26,11 +45,9 @@ public class Converter {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Integer i = inIndex.next();
-                while (inIndex != null && !inIndex.hasNext()) {
-                    inIndex = it.hasNext() ? it.next() : null;
-                }
-                return i;
+                Integer res = integer;
+                integer = null;
+                return res;
             }
         };
     }
