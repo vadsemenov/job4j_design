@@ -1,0 +1,47 @@
+package ru.job4j.generic;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public final class MemStore<T extends Base> implements Store<T> {
+
+    private final List<T> mem = new ArrayList<>();
+
+    @Override
+    public void add(T model) {
+        this.mem.add(model);
+    }
+
+    @Override
+    public boolean replace(String id, T model) {
+        for (T item : this.mem) {
+            if (item.getId() == id) {
+                item = model;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delete(String id) {
+        for (T item : this.mem) {
+            if (item.getId() == id) {
+                this.mem.remove(item);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public T findById(String id) {
+        for (T item : this.mem) {
+            if (item.getId() == id) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+}
