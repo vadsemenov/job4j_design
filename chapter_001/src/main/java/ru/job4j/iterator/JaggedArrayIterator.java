@@ -15,10 +15,19 @@ public class JaggedArrayIterator implements Iterator<Integer> {
 //        this.arrayLength = (int) Arrays.stream(this.values).flatMap(e -> Stream.of(e)).count() + 1;
     }
 
-
     @Override
     public boolean hasNext() {
-        return this.values.length > row;
+        if (this.row >= this.values.length) {
+            return false;
+        }
+
+        while (this.values[row].length == 0) {
+            this.row += 1;
+            if (this.row >= this.values.length) {
+                break;
+            }
+        }
+        return this.values.length > this.row;
     }
 
     @Override
@@ -26,14 +35,12 @@ public class JaggedArrayIterator implements Iterator<Integer> {
         if (!hasNext()) {
             throw new NoSuchElementException();
         }
-        while (this.values[row].length==0){
-            row++;
-        }
-
         Integer res = this.values[this.row][this.coloumn++];
-        if (values[row].length == coloumn) {
-            row++;
-            coloumn = 0;
+        if (this.values[row].length == this.coloumn) {
+            if (this.values.length > this.row) {
+                this.row++;
+            }
+            this.coloumn = 0;
         }
         return res;
         //       return Arrays.stream(this.values).flatMapToInt(Arrays::stream).skip(index++).findFirst().getAsInt();
