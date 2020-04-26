@@ -17,7 +17,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
     public T get(int index) {
         if (this.size == 0 || index >= this.index) {
-            throw new NoSuchElementException();
+            throw new IndexOutOfBoundsException();
         }
         return (T) this.container[index];
     }
@@ -52,9 +52,6 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
-                if (this.expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
