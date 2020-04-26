@@ -1,6 +1,9 @@
 package ru.job4j.generic;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Пример универсальной обертки над массивом.
@@ -11,6 +14,8 @@ public class SimpleArray<T> implements Iterable<T> {
 
     private Object[] data;
     private int index = 0;
+    private int size = 0;
+    private int modCount = 0;
 
     public SimpleArray(int size) {
         this.data = new Object[size];
@@ -18,31 +23,25 @@ public class SimpleArray<T> implements Iterable<T> {
 
 
     public void add(T model) {
-        if (index > this.data.length) {
-            throw new IndexOutOfBoundsException();
-        }
         this.data[index++] = model;
+        size++;
     }
 
 
     public void set(int index, T model) {
-        if (index > this.data.length) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index,size);
         data[index] = model;
     }
 
     public void remove(int index) {
-        if (index > this.data.length) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index,size);
         System.arraycopy(this.data, index + 1, data, index, this.data.length - index - 1);
+        this.index--;
+        this.size--;
     }
 
     public T get(int index) {
-        if (index > this.data.length) {
-            throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index,size);
         return (T) data[index];
     }
 
@@ -50,14 +49,21 @@ public class SimpleArray<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private int i = 0;
+            private final int expectedModCount = modCount;
 
             @Override
             public boolean hasNext() {
+                if (this.expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
                 return data.length > this.i;
             }
 
             @Override
             public T next() {
+                if(!hasNext()){
+                    throw new NoSuchElementException();
+                }
                 return (T) data[i++];
             }
         };
