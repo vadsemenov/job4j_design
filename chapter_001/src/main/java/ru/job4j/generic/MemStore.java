@@ -12,36 +12,35 @@ public final class MemStore<T extends Base> implements Store<T> {
         this.mem.add(model);
     }
 
+    public int indexOf(String id) {
+        for (T item : this.mem) {
+            if (id.equals(item.getId())) {
+                return mem.indexOf(item);
+            }
+        }
+        return -1;
+    }
+
     @Override
     public boolean replace(String id, T model) {
-        for (T item : this.mem) {
-            if (item.getId() == id) {
-                item = model;
-                return true;
-            }
+        if (mem.set(indexOf(id), model) != null) {
+            return true;
         }
         return false;
     }
 
     @Override
     public boolean delete(String id) {
-        for (T item : this.mem) {
-            if (item.getId() == id) {
-                this.mem.remove(item);
-                return true;
-            }
+        if (mem.remove(indexOf(id)) != null) {
+            return true;
         }
         return false;
     }
 
     @Override
     public T findById(String id) {
-        for (T item : this.mem) {
-            if (item.getId() == id) {
-                return item;
-            }
-        }
-        return null;
+
+        return mem.get(indexOf(id));
     }
 
 }
