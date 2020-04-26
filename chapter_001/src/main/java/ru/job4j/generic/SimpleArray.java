@@ -29,27 +29,27 @@ public class SimpleArray<T> implements Iterable<T> {
 
 
     public void set(int index, T model) {
-        Objects.checkIndex(index,size);
+        Objects.checkIndex(index, size);
         data[index] = model;
     }
 
     public void remove(int index) {
-        Objects.checkIndex(index,size);
+        Objects.checkIndex(index, size);
         System.arraycopy(this.data, index + 1, data, index, this.data.length - index - 1);
         this.index--;
         this.size--;
     }
 
     public T get(int index) {
-        Objects.checkIndex(index,size);
+        Objects.checkIndex(index, size);
         return (T) data[index];
     }
 
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
-            private int i = 0;
             private final int expectedModCount = modCount;
+            private int i = 0;
 
             @Override
             public boolean hasNext() {
@@ -61,7 +61,7 @@ public class SimpleArray<T> implements Iterable<T> {
 
             @Override
             public T next() {
-                if(!hasNext()){
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 return (T) data[i++];
