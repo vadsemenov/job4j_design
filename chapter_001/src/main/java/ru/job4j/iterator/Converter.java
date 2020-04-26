@@ -6,37 +6,16 @@ import java.util.NoSuchElementException;
 public class Converter {
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
-            private Iterator<Integer> inIndex = conv();
-            private Integer integer = null;
+            private Iterator<Integer> current = it.hasNext() ? it.next() : null;
 
-            public Iterator<Integer> conv() {
-                if (it.hasNext()) {
-                    return it.next();
-                }
-                return null;
-            }
 
             @Override
             public boolean hasNext() {
-                if (integer != null) {
-                    return true;
+                while (it.hasNext() && !current.hasNext()) {
+                    current = it.next();
                 }
 
-                if (this.inIndex != null) {
-                    while (it.hasNext() || this.inIndex.hasNext()) {
-                        if (!this.inIndex.hasNext()) {
-                            this.inIndex = it.next();
-                        }
-
-                        if (this.inIndex.hasNext()) {
-                            this.integer = inIndex.next();
-                            if (this.integer != null) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-                return false;
+                return current.hasNext();
             }
 
 
@@ -45,9 +24,7 @@ public class Converter {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                Integer res = integer;
-                integer = null;
-                return res;
+                return current.next();
             }
         };
     }
