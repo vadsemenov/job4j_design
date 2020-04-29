@@ -1,7 +1,6 @@
 package ru.job4j.list;
 
 
-import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
 import java.util.ConcurrentModificationException;
@@ -37,10 +36,10 @@ public class SimpleLinkedTest {
         simpleLinked.add(0);
         simpleLinked.add(1);
         Iterator<Integer> it = simpleLinked.iterator();
-       MatcherAssert.assertThat(it.hasNext(), is(true));
-        MatcherAssert.assertThat(it.hasNext(), is(true));
-        MatcherAssert.assertThat(it.next(), is(0));
-        MatcherAssert.assertThat(it.next(), is(1));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(0));
+        assertThat(it.next(), is(1));
     }
 
 

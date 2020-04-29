@@ -3,6 +3,7 @@ package ru.job4j.list;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleLinked<T> implements Iterable<T> {
     private Node<T> first;
@@ -16,6 +17,8 @@ public class SimpleLinked<T> implements Iterable<T> {
         Node<T> node = new Node<T>(value, null);
         if (first == null) {
             first = node;
+            size++;
+            index++;
             return;
         }
         Node<T> tail = first;
@@ -28,47 +31,36 @@ public class SimpleLinked<T> implements Iterable<T> {
     }
 
     public T get(int index) {
-        if (index < size) {
-            Node<T> x = first;
-            for (int i = 0; i < index; i++) {
-                x = x.next;
-            }
-            return x.value;
+        Objects.checkIndex(index, size);
+        Node<T> x = first;
+        for (int i = 0; i < index; i++) {
+            x = x.next;
         }
-        return null;
+        return x.value;
     }
 
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
             private final int expectedModCount = modCount;
-            private int i = 0;
+            Node<T> node = first;
 
             @Override
             public boolean hasNext() {
                 if (this.expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return size >= this.i && size != 0;
+                return node != null;
             }
 
             @Override
             public T next() {
-                if (this.expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-
-                Node<T> x = first;
-                if (size > 1) {
-                    for (int j = 0; j < index; j++) {
-                        x = x.next;
-                    }
-                }
-                this.i++;
-                return x.value;
+                T value = node.value;
+                node = node.next;
+                return value;
             }
         };
     }
