@@ -15,6 +15,10 @@ public class SimpleArray<T> implements Iterable<T> {
         this.container = new Object[100];
     }
 
+    public int getSize() {
+        return this.container.length;
+    }
+
     public T get(int index) {
         if (this.size == 0 || index >= this.index) {
             throw new IndexOutOfBoundsException();
