@@ -9,13 +9,13 @@ public class SimpleSet<E> implements Iterable<E> {
     private SimpleArray<E> simpleArray = new SimpleArray<>();
 
     public void add(E model) {
-        if (!IsUniqueValue(model)) {
+        if (!isUniqueValue(model)) {
             return;
         }
         simpleArray.add(model);
     }
 
-    private boolean IsUniqueValue(E model) {
+    private boolean isUniqueValue(E model) {
         for (int i = 0; i < this.simpleArray.getSize(); i++) {
             if (this.simpleArray.get(i) == model) {
                 return false;

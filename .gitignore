@@ -2,6 +2,9 @@ target
 .idea
 *.iml
 
+.gitignore
+checkstyle.xml
+
 # Compiled class file
 *.class
 
