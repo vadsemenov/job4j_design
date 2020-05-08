@@ -17,7 +17,7 @@ public class SimpleSet<E> implements Iterable<E> {
 
     private boolean isUniqueValue(E model) {
         for (int i = 0; i < this.simpleArray.getSize(); i++) {
-            if (this.simpleArray.get(i) == model) {
+            if (this.simpleArray.get(i).equals(model)) {
                 return false;
             }
         }
