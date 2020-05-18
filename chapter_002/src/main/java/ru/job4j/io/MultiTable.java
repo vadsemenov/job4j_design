@@ -2,7 +2,10 @@ package ru.job4j.io;
 
 import java.io.FileOutputStream;
 
-public class MultiplicationTable {
+/**
+ * Класс выводит таблицу умножения в файл.
+ */
+public class MultiTable {
 
     public static void main(String[] args) {
         StringBuilder text = new StringBuilder();
