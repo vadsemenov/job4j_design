@@ -2,6 +2,9 @@ package ru.job4j.io;
 
 import java.io.FileInputStream;
 
+/**
+ * Класс выводит строчки с четными номерами в файле
+ */
 public class EvenNumberFile {
     public static void main(String[] args) {
         try (FileInputStream in = new FileInputStream("even.txt")) {
