@@ -83,11 +83,11 @@ public class Analyze {
 
         @Override
         public String toString() {
-            return "Info{" +
-                    "added=" + added +
-                    ", changed=" + changed +
-                    ", deleted=" + deleted +
-                    '}';
+            return "Info{"
+                    + "added=" + added
+                    + ", changed=" + changed
+                    + ", deleted=" + deleted
+                    + '}';
         }
     }
 }
