@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.StringJoiner;
 
+
+/**
+ * Класс парсит файл конфигураций(ключ-значение)в Map.
+ */
 public class Config {
     private final String path;
     private final Map<String, String> values = new HashMap<String, String>();
