@@ -1,6 +1,8 @@
 package ru.job4j;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Класс должен возвращать статистику об изменении коллекции.
@@ -16,29 +18,23 @@ public class Analyze {
 
     public Info diff(List<User> previous, List<User> current) {
         Info info = new Info();
-        int index;
-        User tempPreviousUser;
-
-        for (User currentUser : current) {
-            index = indexOfElement(currentUser, previous);
+        Map<Integer, User> userMap = previous.stream().collect(Collectors.toMap(user -> user.id, user -> user));
+        for (User user : current) {
+            User userPrevious = userMap.get(user.id);
             //Проверка на добавленные элементы
-            if (index == -1) {
+            if (userPrevious == null) {
                 info.added++;
                 continue;
             }
             //Проверка на измененные элементы
-            tempPreviousUser = previous.get(index);
-            if (tempPreviousUser.equals(currentUser) && !tempPreviousUser.name.equals(currentUser.name)) {
+            if (!userPrevious.name.equals(user.name)) {
                 info.changed++;
+                continue;
             }
         }
         //Проверка на удаленные элементы
         info.deleted = previous.size() - (current.size() - info.added);
         return info;
-    }
-
-    private int indexOfElement(User user, List<User> listOfUsers) {
-        return listOfUsers.indexOf(user);
     }
 
     public static class User {
