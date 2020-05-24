@@ -3,6 +3,7 @@ package ru.job4j.tree;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
+import java.util.function.Predicate;
 
 class Tree<E> implements SimpleTree<E> {
     private final Node<E> root;
@@ -26,6 +27,7 @@ class Tree<E> implements SimpleTree<E> {
             }
             data.addAll(el.children);
         }
+
         return rsl;
     }
 
@@ -48,14 +50,21 @@ class Tree<E> implements SimpleTree<E> {
         Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
+//      Почему так не получается?
+//      rsl = data.stream().filter(el -> el.value.equals(value)).findFirst();
+
+        Predicate<Node<E>> predicate = (Node<E> el) -> el.value.equals(value);
+
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
-            if (el.value.equals(value)) {
+            if (predicate.test(el)) {
                 rsl = Optional.of(el);
                 break;
             }
             data.addAll(el.children);
         }
+
+
         return rsl;
     }
 }
