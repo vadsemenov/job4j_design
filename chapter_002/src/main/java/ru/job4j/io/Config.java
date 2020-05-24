@@ -15,17 +15,12 @@ public class Config {
     }
 
     public void load() {
-        StringJoiner out = new StringJoiner(System.lineSeparator());
         try (BufferedReader read = new BufferedReader(new FileReader(path))) {
-            read.lines().forEach(out::add);
-            String[] splitedOut = out.toString().split(System.lineSeparator());
-            String[] splitedLine;
-            for (String line : splitedOut) {
-                if (line.contains("=")) {
-                    splitedLine = line.split("=");
-                    this.values.put(splitedLine[0], splitedLine[1]);
-                }
-            }
+            read.lines().filter(el -> el.charAt(0) != '#' && !el.equals("") && el.contains("="))
+                    .forEach(el -> {
+                        String[] splited = el.split("=");
+                        values.put(splited[0], splited[1]);
+                    });
         } catch (Exception e) {
             e.printStackTrace();
         }
