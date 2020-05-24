@@ -17,6 +17,7 @@ class Tree<E> implements SimpleTree<E> {
         boolean rsl = true;
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
+
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
             if (el.children.size() > 2) {
@@ -33,16 +34,12 @@ class Tree<E> implements SimpleTree<E> {
         boolean rsl = false;
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.value.equals(parent)) {
-                el.children.add(new Node<E>(child));
-                rsl = true;
-                break;
-            }
-            data.addAll(el.children);
-        }
 
+        Node<E> el = findBy(parent).get();
+        if (el != null) {
+            el.children.add(new Node<E>(child));
+            rsl = true;
+        }
         return rsl;
     }
 
