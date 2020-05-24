@@ -14,61 +14,69 @@ package ru.job4j.map;
 //Методы разрешения коллизий реализовывать не надо. Например: если при добавлении ключ
 //уже есть, то возвращать false.
 
-import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleMap<K, V> implements Iterable<V> {
 
+    private final double LOAD_FACTOR = 0.75f;
     private int arraySize;
     private Object[] array;
     private int modCount = 0;
 
-
     public SimpleMap() {
-        arraySize = 10;
+        arraySize = 16;
         this.array = new Object[arraySize];
     }
 
     public boolean insert(K key, V value) {
         modCount++;
-        int hash = Math.abs(key.hashCode() % this.arraySize);
+        int hash = 31 * key.hashCode();
+        int index = Math.abs(key.hashCode() % this.arraySize);
 
-        if (this.arraySize < hash) {
-            extendArray(hash);
+        if (index >= (int) LOAD_FACTOR * this.arraySize) {
+            extendArray(index);
         }
 
         Node node = new Node(hash, key, value);
-        if (array[hash] == null) {
-            array[hash] = node;
+        if (array[index] == null) {
+            array[index] = node;
             return true;
+        }
+        if (array[index] != null) {
+            Node currentNode = (Node) array[index];
+            if (node.key.equals(currentNode.key)) {
+                array[index] = node;
+                return true;
+            }
         }
         return false;
     }
 
-    private void extendArray(int hash) {
-        this.array = Arrays.copyOf(this.array, hash);
+    private void extendArray(int newIndex) {
+        System.arraycopy(this.array, 0, this.array, 0, newIndex);
     }
 
 
     public V get(K key) {
-        modCount++;
-        int hash = Math.abs(key.hashCode() % this.arraySize);
-        if (array[hash] != null) {
-            Node node = (Node) array[hash];
-            return node.value;
+        int index = Math.abs(key.hashCode() % this.arraySize);
+        if (array[index] != null) {
+            Node node = (Node) array[index];
+            if (node.key.equals(key)) {
+                return node.value;
+            }
         }
         return null;
     }
 
     public boolean delete(K key) {
         modCount++;
-        int hash = Math.abs(key.hashCode() % this.arraySize);
-        if (array[hash] != null) {
-            Node node = (Node) array[hash];
+        int index = Math.abs(key.hashCode() % this.arraySize);
+        if (array[index] != null) {
+            Node node = (Node) array[index];
             if (node.key.equals(key)) {
-                array[hash] = null;
+                array[index] = null;
                 return true;
             }
         }
