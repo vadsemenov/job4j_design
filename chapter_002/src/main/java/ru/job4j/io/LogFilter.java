@@ -11,7 +11,7 @@ public class LogFilter {
 
     public static List<String> filter(String file) {
 
-        try (BufferedReader in = new BufferedReader(new FileReader("log.txt"))) {
+        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
             List<String> lines = new ArrayList<String>();
             List<String> result = new ArrayList<String>();
             in.lines().forEach(lines::add);
