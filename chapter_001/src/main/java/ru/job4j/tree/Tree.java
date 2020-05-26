@@ -24,7 +24,7 @@ class Tree<E> implements SimpleTree<E> {
         boolean rsl = false;
         Node<E> el = findBy(parent).get();
         if (el != null) {
-            if (!IsChildExist(el, child)) {
+            if (!isChildExist(el, child)) {
                 el.children.add(new Node<E>(child));
                 rsl = true;
             }
@@ -32,7 +32,7 @@ class Tree<E> implements SimpleTree<E> {
         return rsl;
     }
 
-    public boolean IsChildExist(Node<E> el, E child) {
+    public boolean isChildExist(Node<E> el, E child) {
         List<Node<E>> children = el.children;
         for (Node<E> node : children) {
             if (node.value == child) {
