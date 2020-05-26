@@ -15,17 +15,13 @@ public class Analizy {
     public void unavailable(String source, String target) {
         List<String> text = new LinkedList<>();
         try (BufferedReader read = new BufferedReader(new FileReader(source))) {
-            read.lines().forEach(text::add);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
             String[] splited;
             boolean isUnavaliable = false;
             String start = "";
             String end = "";
-            for (String line : text) {
+            String line = "";
+            while ((line = read.readLine()) != null) {
                 if (!line.equals("") && line.contains(" ")) {
                     splited = line.split(" ");
                     if (splited[0].equals("400") || splited[0].equals("500")) {
@@ -37,11 +33,18 @@ public class Analizy {
                         if (isUnavaliable) {
                             end = splited[1];
                             isUnavaliable = false;
-                            out.println(start + ";" + end + ";");
+                            text.add(start + ";" + end + ";");
                         }
                     }
-
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try (PrintWriter out = new PrintWriter(new FileOutputStream(target))) {
+            for (String string : text) {
+                out.println(string);
             }
         } catch (Exception e) {
             e.printStackTrace();
