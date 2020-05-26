@@ -1,6 +1,7 @@
 package ru.job4j.tree;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.function.Predicate;
@@ -15,46 +16,42 @@ class Tree<E> implements SimpleTree<E> {
 
     @Override
     public boolean isBinary() {
-        boolean rsl = true;
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-
-        while (!data.isEmpty()) {
-            Node<E> el = data.poll();
-            if (el.children.size() > 2) {
-                rsl = false;
-                break;
-            }
-            data.addAll(el.children);
-        }
-
-        return rsl;
+        return findByPredicate(n -> n.children.size() > 2).isEmpty();
     }
 
     @Override
     public boolean add(E parent, E child) {
         boolean rsl = false;
-        Queue<Node<E>> data = new LinkedList<>();
-        data.offer(this.root);
-
         Node<E> el = findBy(parent).get();
         if (el != null) {
-            el.children.add(new Node<E>(child));
-            rsl = true;
+            if (!IsChildExist(el, child)) {
+                el.children.add(new Node<E>(child));
+                rsl = true;
+            }
         }
         return rsl;
     }
 
+    public boolean IsChildExist(Node<E> el, E child) {
+        List<Node<E>> children = el.children;
+        for (Node<E> node : children) {
+            if (node.value == child) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public Optional<Node<E>> findBy(E value) {
+        return findByPredicate(n -> n.value.equals(value));
+    }
+
+
+    public Optional<Node<E>> findByPredicate(Predicate<Node<E>> predicate) {
         Optional<Node<E>> rsl = Optional.empty();
         Queue<Node<E>> data = new LinkedList<>();
         data.offer(this.root);
-//      Почему так не получается?
-//      rsl = data.stream().filter(el -> el.value.equals(value)).findFirst();
-
-        Predicate<Node<E>> predicate = (Node<E> el) -> el.value.equals(value);
-
         while (!data.isEmpty()) {
             Node<E> el = data.poll();
             if (predicate.test(el)) {
@@ -63,8 +60,6 @@ class Tree<E> implements SimpleTree<E> {
             }
             data.addAll(el.children);
         }
-
-
         return rsl;
     }
 }
