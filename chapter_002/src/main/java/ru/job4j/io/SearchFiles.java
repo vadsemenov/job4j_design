@@ -11,6 +11,9 @@ import java.util.function.Predicate;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
 
+/**
+ * Класс для выбора файлов с определенным Predicate.
+ */
 public class SearchFiles implements FileVisitor<Path> {
     private Predicate<Path> predicate;
     private List<Path> foundedPathes = new ArrayList<Path>();
