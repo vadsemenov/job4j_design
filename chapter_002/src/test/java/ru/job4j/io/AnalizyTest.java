@@ -1,19 +1,25 @@
 package ru.job4j.io;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.*;
 import java.util.StringJoiner;
 
 public class AnalizyTest {
+
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     @Test
-    public void whenParseFile() {
-        Analizy analizy = new Analizy();
+    public void drop() throws IOException{
         String source = "./data/server.file";
-        String target = "./data/target.file";
-        analizy.unavailable(source, target);
+        File target = folder.newFile("target.txt");
+
+        Analizy analizy =  new Analizy();
+        analizy.unavailable(source,target.getAbsolutePath());
 
         StringJoiner text = new StringJoiner(System.lineSeparator());
         try (BufferedReader read = new BufferedReader(new FileReader(target))) {
@@ -27,6 +33,6 @@ public class AnalizyTest {
         result.add("11:01:02;11:02:02;");
 
         Assert.assertEquals(result.toString(),text.toString());
-    }
 
+    }
 }
