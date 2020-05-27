@@ -33,7 +33,7 @@ public class AnalizyTest {
 
         StringJoiner result = new StringJoiner(System.lineSeparator());
         result.add("10:57:01;10:59:01;");
-        result.add("11:01:02;11:02:02;"); //
+        result.add("11:01:02;11:02:02;");
 
         Assert.assertEquals(result.toString(), text.toString());
 
