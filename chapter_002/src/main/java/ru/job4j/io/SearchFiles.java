@@ -22,9 +22,6 @@ public class SearchFiles implements FileVisitor<Path> {
         this.predicate = pathPredicate;
     }
 
-    public static void main(String[] args) {
-    }
-
     public List<Path> getPaths() {
         return foundedPathes;
     }
@@ -37,7 +34,7 @@ public class SearchFiles implements FileVisitor<Path> {
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
         if (predicate.test(file)) {
-            foundedPathes.add(file.getFileName());
+            foundedPathes.add(file.toAbsolutePath());
         }
         return CONTINUE;
     }
