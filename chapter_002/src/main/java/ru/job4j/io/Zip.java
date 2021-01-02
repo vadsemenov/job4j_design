@@ -1,6 +1,10 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -10,11 +14,22 @@ import java.util.zip.ZipOutputStream;
  */
 public class Zip {
 
-    public static void main(String[] args) {
-        new Zip().packSingleFile(
-                new File("./chapter_005/pom.xml"),
-                new File("./chapter_005/pom.zip")
-        );
+    public static void main(String[] args) throws IOException {
+        ArgZip argZip = new ArgZip(args);
+
+        SearchFiles searchFiles = new SearchFiles(path -> !path.toFile().getName().endsWith(argZip.exclude()));
+        Files.walkFileTree(Paths.get(argZip.directory()), searchFiles);
+        List<Path> paths = searchFiles.getPaths();
+        List<File> files = new ArrayList<>();
+        for (Path file : paths) {
+            files.add(file.toFile());
+        }
+        new Zip().packFiles(files, new File(argZip.output()));
+
+//        new Zip().packSingleFile(
+//                new File("./chapter_005/pom.xml"),
+//                new File("./chapter_005/pom.zip")
+//        );
     }
 
     public void packFiles(List<File> sources, File target) {
