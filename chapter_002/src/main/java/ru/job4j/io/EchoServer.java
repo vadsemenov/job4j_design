@@ -17,7 +17,7 @@ public class EchoServer {
                              new InputStreamReader(socket.getInputStream()))) {
                     String str;
 
-                    while (!(str = in.readLine()).isEmpty()) {
+                    if ((str=in.readLine())!=null&& !str.isEmpty()) {
                         String[] line = str.split(" ");
                         int index = line[1].lastIndexOf("=");
                         String word = line[1].substring(index + 1);
@@ -43,11 +43,7 @@ public class EchoServer {
                             System.out.println(str);
                        }
                     }
-                    if (str.equals("GET /?msg=Exit HTTP/1.1")) {
-                        out.write("HTTP/1.1 200 Exit\r\n\r\n".getBytes());
-                        break;
-                   }
-                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+
                 }
             }
         }
