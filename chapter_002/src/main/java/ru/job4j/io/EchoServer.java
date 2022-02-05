@@ -6,7 +6,8 @@ import java.net.Socket;
 
 /**
  * Класс создает Сервер и Сокет для соединения.
- * Если клиент шлет Exit, то Сервер закрывается. */
+ * Если клиент шлет Exit, то Сервер закрывается.
+ */
 public class EchoServer {
     public static void main(String[] args) throws IOException {
         try (ServerSocket server = new ServerSocket(9000)) {
@@ -16,8 +17,8 @@ public class EchoServer {
                      BufferedReader in = new BufferedReader(
                              new InputStreamReader(socket.getInputStream()))) {
                     String str;
-
-                    if ((str=in.readLine())!=null&& !str.isEmpty()) {
+                    str = in.readLine();
+                    if (str != null && !str.isEmpty()) {
                         String[] line = str.split(" ");
                         int index = line[1].lastIndexOf("=");
                         String word = line[1].substring(index + 1);
@@ -33,7 +34,7 @@ public class EchoServer {
                                 break;
                             default:
                                 out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-                                out.write( word.getBytes());
+                                out.write(word.getBytes());
                                 break;
                         }
 
@@ -41,7 +42,7 @@ public class EchoServer {
                             break;
                         } else {
                             System.out.println(str);
-                       }
+                        }
                     }
 
                 }
