@@ -1,26 +1,12 @@
 package ru.job4j.map;
 
-//8. Реализовать собственную структуру данных - HashMap [#273654]
-//Ассоциативный массив на базе хэш-таблицы должен быть унифицирован через генерики и иметь методы:
-//boolean insert(K key, V value);
-//V get(K key);
-//boolean delete(K key);
-//
-//Реализовывать итератор.
-//Внутренняя реализация должна использовать массив. Нужно обеспечить фиксированное
-// время вставки и получение. Предусмотрите возможность роста хэш-таблицы при нехватке
-// места для нового элемента.
-//
-//Методы разрешения коллизий реализовывать не надо. Например: если при добавлении ключ
-//уже есть, то возвращать false.
-
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class SimpleMap<K, V> implements Iterable<V> {
 
-    private final double LOAD_FACTOR = 0.75f;
+    private static final double LOAD_FACTOR = 0.75f;
     private int arraySize;
     private Object[] array;
     private int modCount = 0;
