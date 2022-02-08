@@ -25,7 +25,7 @@ public class ConsoleChat {
 
     public ConsoleChat(String answersFileName, String targetFileName) {
         this.answersFileName = answersFileName;
-        //this.answersFileName = "./chapter_002/data/chatAnswers.txt";
+        /*this.answersFileName = "./chapter_002/data/chatAnswers.txt";*/
         this.targetFileName = targetFileName;
 
         fillTheAnswers();

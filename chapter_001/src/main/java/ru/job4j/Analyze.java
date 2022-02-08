@@ -21,18 +21,15 @@ public class Analyze {
         Map<Integer, User> userMap = previous.stream().collect(Collectors.toMap(user -> user.id, user -> user));
         for (User user : current) {
             User userPrevious = userMap.get(user.id);
-            //Проверка на добавленные элементы
             if (userPrevious == null) {
                 info.added++;
                 continue;
             }
-            //Проверка на измененные элементы
             if (!userPrevious.name.equals(user.name)) {
                 info.changed++;
                 continue;
             }
         }
-        //Проверка на удаленные элементы
         info.deleted = previous.size() - (current.size() - info.added);
         return info;
     }

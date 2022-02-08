@@ -12,7 +12,6 @@ public class JaggedArrayIterator implements Iterator<Integer> {
 
     public JaggedArrayIterator(final int[][] values) {
         this.values = values;
-//        this.arrayLength = (int) Arrays.stream(this.values).flatMap(e -> Stream.of(e)).count() + 1;
     }
 
     @Override
@@ -43,6 +42,5 @@ public class JaggedArrayIterator implements Iterator<Integer> {
             this.coloumn = 0;
         }
         return res;
-        //       return Arrays.stream(this.values).flatMapToInt(Arrays::stream).skip(index++).findFirst().getAsInt();
     }
 }

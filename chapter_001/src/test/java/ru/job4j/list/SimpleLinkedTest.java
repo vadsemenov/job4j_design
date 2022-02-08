@@ -30,7 +30,7 @@ public class SimpleLinkedTest {
         it.next();
     }
 
-    @Test//(expected = NoSuchElementException.class)
+    @Test
     public void whenTryIterateAndDontHasNext() {
         SimpleLinked<Integer> simpleLinked = new SimpleLinked<>();
         simpleLinked.add(0);
@@ -41,6 +41,4 @@ public class SimpleLinkedTest {
         assertThat(it.next(), is(0));
         assertThat(it.next(), is(1));
     }
-
-
 }

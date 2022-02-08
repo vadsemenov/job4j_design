@@ -25,11 +25,6 @@ public class Zip {
             files.add(file.toFile());
         }
         new Zip().packFiles(files, new File(argZip.output()));
-
-//        new Zip().packSingleFile(
-//                new File("./chapter_005/pom.xml"),
-//                new File("./chapter_005/pom.zip")
-//        );
     }
 
     public void packFiles(List<File> sources, File target) {

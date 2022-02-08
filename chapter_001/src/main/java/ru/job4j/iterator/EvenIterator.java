@@ -30,11 +30,6 @@ public class EvenIterator implements Iterator {
         index = nextIndex;
 
         return index >= 0;
-
-        //        if (Arrays.stream(this.values).filter(e -> e % 2 == 0).skip(index).count() > 0) {
-//            return true;
-//        }
-//        return false;
     }
 
     @Override
@@ -43,7 +38,6 @@ public class EvenIterator implements Iterator {
             throw new NoSuchElementException();
         }
         return values[index++];
-        // return Arrays.stream(this.values).filter(e -> e % 2 == 0).skip(index++).findFirst().getAsInt();
     }
 
 }
